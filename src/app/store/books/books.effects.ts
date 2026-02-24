@@ -45,8 +45,25 @@ export class BooksEffects {
                 )
             )
         )
-
     )
+
+    uploadPhoto$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(BooksActions.uploadBookPhoto),
+            mergeMap(({ file, book }) =>
+                this.bookService.uploadPhotoWithBook(file, book).pipe(
+                    map(savedBook => {
+                        if (book.id !== undefined) {
+                            return BooksActions.updateBookSuccess({ book: savedBook });
+                        } else {
+                            return BooksActions.addBookSuccess({ book: savedBook });
+                        }
+                    }),
+                    catchError(error => of(BooksActions.uploadBookPhotoFailure({ error })))
+                )
+            )
+        )
+    );
 
     deleteBook$ = createEffect(() =>
         this.actions$.pipe(

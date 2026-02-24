@@ -73,28 +73,19 @@ export class BookComponent {
   save() {
     const book = this.formBook();
 
-    console.log('book1234: ' + book);
-
     if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-      formData.append('book', JSON.stringify(book));
-
-      this.http.post('http://localhost:8080/api/books', formData).subscribe((data) => {
-        console.log('data: ', data)
-        this.loadBooks();
-        this.isEditMode.set(false);
-        this.selectedFile = undefined;
-      });
+      this.store.dispatch(BooksActions.uploadBookPhoto({ file: this.selectedFile, book }));
     } else {
-      // existing add/update without photo
       if (book.id !== undefined) {
         this.store.dispatch(BooksActions.updateBook({ book }));
       } else {
         this.store.dispatch(BooksActions.addBook({ book }));
       }
-      this.isEditMode.set(false);
     }
+
+    this.isEditMode.set(false);
+    this.selectedFile = undefined;
+    this.selectedFilePreview = null;
   }
 
   cancel() {

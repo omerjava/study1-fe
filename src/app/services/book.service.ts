@@ -28,6 +28,14 @@ export class BookService {
     return this.http.put<Book>(`${this.apiUrl}/${book.id}`, book);
   }
 
+  uploadPhotoWithBook(file: File, book: Book): Observable<Book> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('book', JSON.stringify(book));
+
+    return this.http.post<Book>(this.apiUrl, formData);
+  }
+
   deleteBook(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
