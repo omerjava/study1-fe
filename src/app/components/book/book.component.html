@@ -1,0 +1,26 @@
+<div>
+    <h2>Book List</h2>
+    <button (click)="createNew()">Add New Book</button>
+
+    <ul>
+        <li *ngFor="let book of books()">
+            <strong>{{ book.name }}</strong> by {{ book.author }}. @if(book.description) {
+            <strong>Description: </strong> {{ book.description }}
+            }
+            <button (click)="selectBook(book)">Edit</button>
+            <button (click)="deleteBook(book)">Delete</button>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="isEditMode()">
+    <h2>{{ formBook().id ? 'Edit' : 'Add'}} Book</h2>
+    <form (ngSubmit)="save()">
+        <input type="tex" [(ngModel)]="formBook().name" name="name" placeholder="Name" required>
+        <input type="text" [(ngModel)]="formBook().author" name="author" placeholder="Author" required>
+        <textarea [(ngModel)]="formBook().description" name="description" id="description"
+            placeholder="Description"></textarea>
+        <button type="submit">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+    </form>
+</div>
