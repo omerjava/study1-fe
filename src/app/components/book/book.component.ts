@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as BooksActions from '../../store/books/books.actions';
 import { selectAllBooks, selectBooksState, selectError } from '../../store/books/books.selectors';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-book',
@@ -16,11 +17,15 @@ import { selectAllBooks, selectBooksState, selectError } from '../../store/books
 export class BookComponent {
 
   private store = inject(Store);
+  private http = inject(HttpClient);
 
   books = signal<Book[]>([]);
   selectedBook = signal<Book | null>(null);
   formBook = signal<Book>({ id: undefined, name: '', author: '', description: '' });
   isEditMode = signal(false);
+  selectedFile?: File;
+  selectedFilePreview: string | ArrayBuffer | null = null;
+
 
   constructor() {
     this.store.select(selectAllBooks).subscribe(books =>
@@ -32,6 +37,20 @@ export class BookComponent {
 
   loadBooks() {
     this.store.dispatch(BooksActions.loadBooks());
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedFilePreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+
+      // Save the file or its data for upload
+      this.selectedFile = file; // if you have such a property
+    }
   }
 
   selectBook(book: Book) {
@@ -54,12 +73,28 @@ export class BookComponent {
   save() {
     const book = this.formBook();
 
-    if (book.id !== undefined) {
-      this.store.dispatch(BooksActions.updateBook({ book }))
+    console.log('book1234: ' + book);
+
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      formData.append('book', JSON.stringify(book));
+
+      this.http.post('http://localhost:8080/api/books', formData).subscribe((data) => {
+        console.log('data: ', data)
+        this.loadBooks();
+        this.isEditMode.set(false);
+        this.selectedFile = undefined;
+      });
     } else {
-      this.store.dispatch(BooksActions.addBook({ book }))
+      // existing add/update without photo
+      if (book.id !== undefined) {
+        this.store.dispatch(BooksActions.updateBook({ book }));
+      } else {
+        this.store.dispatch(BooksActions.addBook({ book }));
+      }
+      this.isEditMode.set(false);
     }
-    this.isEditMode.set(false);
   }
 
   cancel() {

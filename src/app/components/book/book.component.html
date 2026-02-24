@@ -7,6 +7,11 @@
             <strong>{{ book.name }}</strong> by {{ book.author }}. @if(book.description) {
             <strong>Description: </strong> {{ book.description }}
             }
+
+            <div *ngIf="book.photoUrl">
+                <img [src]="'http://localhost:8080' + book.photoUrl" alt="Book Photo" width="300" height="200">
+            </div>
+
             <button (click)="selectBook(book)">Edit</button>
             <button (click)="deleteBook(book)">Delete</button>
         </li>
@@ -20,6 +25,14 @@
         <input type="text" [(ngModel)]="formBook().author" name="author" placeholder="Author" required>
         <textarea [(ngModel)]="formBook().description" name="description" id="description"
             placeholder="Description"></textarea>
+        <input type="file" accept="image/*" (change)="onFileSelected($event)">
+
+        <!-- Show preview -->
+        <div *ngIf="selectedFilePreview">
+            <h4>Preview:</h4>
+            <img [src]="selectedFilePreview" alt="Image preview" width="300" height="200">
+        </div>
+
         <button type="submit">Save</button>
         <button type="button" (click)="cancel()">Cancel</button>
     </form>
