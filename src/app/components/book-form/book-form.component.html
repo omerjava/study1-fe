@@ -1,0 +1,25 @@
+<div>
+    <h2>{{ tempBook.id ? 'Edit' : 'Add' }} Book</h2>
+    <form (ngSubmit)="onSave()">
+
+        <input type="text" [ngModel]="tempBook.name" (ngModelChange)="updateField('name', $event)" name="name"
+            placeholder="Name" required>
+
+        <input type="text" [ngModel]="tempBook.author" (ngModelChange)="updateField('author', $event)" name="author"
+            placeholder="Author" required>
+
+        <textarea [ngModel]="tempBook.description" (ngModelChange)="updateField('description', $event)"
+            name="description" placeholder="Description">
+    </textarea>
+
+        <input type="file" accept="image/*" (change)="onFileChange($event)">
+
+        <div *ngIf="selectedFilePreview">
+            <h4>Preview:</h4>
+            <img [src]="selectedFilePreview" alt="Image preview" width="300" height="200">
+        </div>
+
+        <button type="submit">Save</button>
+        <button type="button" (click)="onCancel()">Cancel</button>
+    </form>
+</div>

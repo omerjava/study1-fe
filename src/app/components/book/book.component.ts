@@ -1,28 +1,28 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { Book } from '../../models/book.model';
-import { BookService } from '../../services/book.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as BooksActions from '../../store/books/books.actions';
-import { selectAllBooks, selectBooksState, selectError } from '../../store/books/books.selectors';
-import { HttpClient } from '@angular/common/http';
+import { selectAllBooks } from '../../store/books/books.selectors';
+import { BookFormComponent } from '../book-form/book-form.component';
 
 @Component({
   selector: 'app-book',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, BookFormComponent],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })
 export class BookComponent {
 
   private store = inject(Store);
-  private http = inject(HttpClient);
 
   books = signal<Book[]>([]);
-  selectedBook = signal<Book | null>(null);
   formBook = signal<Book>({ id: undefined, name: '', author: '', description: '' });
   isEditMode = signal(false);
+  isCreateMode = signal(false);
+  saveTrigger = signal(0);
+  cancelTrigger = signal(0);
   selectedFile?: File;
   selectedFilePreview: string | ArrayBuffer | null = null;
 
@@ -39,29 +39,16 @@ export class BookComponent {
     this.store.dispatch(BooksActions.loadBooks());
   }
 
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedFilePreview = reader.result;
-      };
-      reader.readAsDataURL(file);
-
-      // Save the file or its data for upload
-      this.selectedFile = file; // if you have such a property
-    }
-  }
-
   selectBook(book: Book) {
-    this.selectedBook.set(book);
     this.formBook.set({ ...book });
     this.isEditMode.set(true);
+    this.selectedFile = undefined;
+    this.selectedFilePreview = null;
   }
 
   createNew() {
     this.formBook.set({ id: undefined, name: '', author: '', description: '' });
-    this.isEditMode.set(true);
+    this.isCreateMode.set(true);
   }
 
   deleteBook(book: Book) {
@@ -70,26 +57,26 @@ export class BookComponent {
     }
   }
 
-  save() {
-    const book = this.formBook();
-
+  save(book: Book) {
     if (this.selectedFile) {
       this.store.dispatch(BooksActions.uploadBookPhoto({ file: this.selectedFile, book }));
     } else {
-      if (book.id !== undefined) {
-        this.store.dispatch(BooksActions.updateBook({ book }));
-      } else {
-        this.store.dispatch(BooksActions.addBook({ book }));
-      }
+      if (book.id !== undefined) this.store.dispatch(BooksActions.updateBook({ book }));
+      else this.store.dispatch(BooksActions.addBook({ book }));
     }
-
-    this.isEditMode.set(false);
-    this.selectedFile = undefined;
-    this.selectedFilePreview = null;
+    this.resetForm();
   }
 
   cancel() {
+    this.resetForm();
+  }
+
+  resetForm() {
     this.isEditMode.set(false);
+    this.isCreateMode.set(false);
+    this.formBook.set({ id: undefined, name: '', author: '', description: '' });
+    this.selectedFile = undefined;
+    this.selectedFilePreview = null;
   }
 
 
@@ -102,6 +89,25 @@ export class BookComponent {
 
 
   /*
+   <div *ngIf="isEditMode() && formBook().id === book.id">
+                <h2>{{ formBook().id ? 'Edit' : 'Add'}} Book</h2>
+                <form (ngSubmit)="save(formBook())">
+                    <input type="tex" [(ngModel)]="formBook().name" name="name" placeholder="Name" required>
+                    <input type="text" [(ngModel)]="formBook().author" name="author" placeholder="Author" required>
+                    <textarea [(ngModel)]="formBook().description" name="description" id="description"
+                        placeholder="Description"></textarea>
+                    <input type="file" accept="image/*" (change)="onFileSelected($event)">
+
+                    <!-- Show preview -->
+                    <div *ngIf="selectedFilePreview">
+                        <h4>Preview:</h4>
+                        <img [src]="selectedFilePreview" alt="Image preview" width="300" height="200">
+                    </div>
+
+                    <button type="submit">Save</button>
+                    <button type="button" (click)="cancel()">Cancel</button>
+                </form>
+            </div>
 
   private store = inject(Store);
 
