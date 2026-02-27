@@ -2,15 +2,15 @@
     <h2>Book List</h2>
     <button (click)="createNew()">Add New Book</button>
 
-    <app-book-form *ngIf="isCreateMode()" [book]="formBook()" [selectedFile]="selectedFile" (save)="save($event)"
-        (cancel)="cancel()" (selectedFileChange)="selectedFile = $event">
+    <app-book-form *ngIf="isCreateMode()" [book]="formBook!" (cancelEvent)="onCancel()">
     </app-book-form>
 
     <ul>
         <li *ngFor="let book of books()">
-            <strong>{{ book.name }}</strong> by {{ book.author }}. @if(book.description) {
-            <strong>Description: </strong> {{ book.description }}
-            }
+            <strong>{{ book.name }}</strong> by {{ book.author }}
+            <div *ngIf="book.description">
+                <strong>Description:</strong> {{ book.description }}
+            </div>
 
             <div *ngIf="book.photoUrl">
                 <img [src]="'http://localhost:8080' + book.photoUrl" alt="Book Photo" width="300" height="200">
@@ -19,9 +19,8 @@
             <button (click)="selectBook(book)">Edit</button>
             <button (click)="deleteBook(book)">Delete</button>
 
-            <app-book-form *ngIf="isEditMode() && formBook().id === book.id" [book]="formBook()"
-                [selectedFile]="selectedFile" (save)="save($event)" (cancel)="cancel()"
-                (selectedFileChange)="selectedFile = $event">
+            <app-book-form *ngIf="isEditMode() && formBook?.id === book.id" [book]="formBook!"
+                (cancelEvent)="onCancel()">
             </app-book-form>
         </li>
     </ul>

@@ -1,14 +1,14 @@
 <div>
-    <h2>{{ tempBook.id ? 'Edit' : 'Add' }} Book</h2>
-    <form (ngSubmit)="onSave()">
+    <h2>{{ formBook().id ? 'Edit' : 'Add' }} Book</h2>
+    <form (ngSubmit)="save()">
 
-        <input type="text" [ngModel]="tempBook.name" (ngModelChange)="updateField('name', $event)" name="name"
+        <input type="text" [ngModel]="formBook().name" (ngModelChange)="updateField('name', $event)" name="name"
             placeholder="Name" required>
 
-        <input type="text" [ngModel]="tempBook.author" (ngModelChange)="updateField('author', $event)" name="author"
+        <input type="text" [ngModel]="formBook().author" (ngModelChange)="updateField('author', $event)" name="author"
             placeholder="Author" required>
 
-        <textarea [ngModel]="tempBook.description" (ngModelChange)="updateField('description', $event)"
+        <textarea [ngModel]="formBook().description" (ngModelChange)="updateField('description', $event)"
             name="description" placeholder="Description">
     </textarea>
 
@@ -19,7 +19,11 @@
             <img [src]="selectedFilePreview" alt="Image preview" width="300" height="200">
         </div>
 
+        <div *ngIf="formError" style="color:red; margin: 10px 0;">
+            {{ formError }}
+        </div>
+
         <button type="submit">Save</button>
-        <button type="button" (click)="onCancel()">Cancel</button>
+        <button type="button" (click)="cancel()">Cancel</button>
     </form>
 </div>
