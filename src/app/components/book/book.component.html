@@ -1,26 +1,32 @@
-<div>
-    <h2>Book List</h2>
-    <button (click)="createNew()">Add New Book</button>
+<div class="book-container">
+    <h2 class="book-title">Book List</h2>
+    <button class="btn add-btn" (click)="createNew()">Add New Book</button>
 
-    <app-book-form *ngIf="isCreateMode()" [book]="formBook!" (cancelEvent)="onCancel()">
+    <!-- Form for creating a new book -->
+    <app-book-form *ngIf="isCreateMode()" [book]="formBook!" (cancelEvent)="onCancel()" class="book-form">
     </app-book-form>
 
-    <ul>
-        <li *ngFor="let book of books()">
-            <strong>{{ book.name }}</strong> by {{ book.author }}
-            <div *ngIf="book.description">
-                <strong>Description:</strong> {{ book.description }}
+    <ul class="book-list">
+        <li *ngFor="let book of books()" class="book-item">
+            <div class="book-info">
+                <strong class="book-name">{{ book.name }}</strong> by <span class="book-author">{{ book.author }}</span>
+                <div *ngIf="book.description" class="book-description">
+                    <strong>Description:</strong> {{ book.description }}
+                </div>
             </div>
 
-            <div *ngIf="book.photoUrl">
-                <img [src]="'http://localhost:8080' + book.photoUrl" alt="Book Photo" width="300" height="200">
+            <div *ngIf="book.photoUrl" class="book-photo">
+                <img [src]="'http://localhost:8080' + book.photoUrl" alt="Book Photo">
             </div>
 
-            <button (click)="selectBook(book)">Edit</button>
-            <button (click)="deleteBook(book)">Delete</button>
+            <div class="book-actions">
+                <button class="btn edit-btn" (click)="selectBook(book)">Edit</button>
+                <button class="btn delete-btn" (click)="deleteBook(book)">Delete</button>
+            </div>
 
+            <!-- Inline edit form for existing book -->
             <app-book-form *ngIf="isEditMode() && formBook?.id === book.id" [book]="formBook!"
-                (cancelEvent)="onCancel()">
+                (cancelEvent)="onCancel()" class="book-form-inline">
             </app-book-form>
         </li>
     </ul>

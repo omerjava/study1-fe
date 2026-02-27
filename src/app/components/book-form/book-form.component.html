@@ -1,29 +1,34 @@
-<div>
-    <h2>{{ formBook().id ? 'Edit' : 'Add' }} Book</h2>
-    <form (ngSubmit)="save()">
+<div class="form-container">
+    <h2 class="form-title">{{ formBook().id ? 'Edit' : 'Add' }} Book</h2>
+    <form (ngSubmit)="save()" class="book-form-inner">
 
+        <label class="form-label">Name</label>
         <input type="text" [ngModel]="formBook().name" (ngModelChange)="updateField('name', $event)" name="name"
-            placeholder="Name" required>
+            placeholder="Name" class="form-input" required>
 
+        <label class="form-label">Author</label>
         <input type="text" [ngModel]="formBook().author" (ngModelChange)="updateField('author', $event)" name="author"
-            placeholder="Author" required>
+            placeholder="Author" class="form-input" required>
 
+        <label class="form-label">Description</label>
         <textarea [ngModel]="formBook().description" (ngModelChange)="updateField('description', $event)"
-            name="description" placeholder="Description">
-    </textarea>
+            name="description" placeholder="Description" class="form-textarea"></textarea>
 
-        <input type="file" accept="image/*" (change)="onFileChange($event)">
+        <label class="form-label">Photo</label>
+        <input type="file" accept="image/*" (change)="onFileChange($event)" class="form-input">
 
-        <div *ngIf="selectedFilePreview">
+        <div *ngIf="selectedFilePreview" class="preview-container">
             <h4>Preview:</h4>
-            <img [src]="selectedFilePreview" alt="Image preview" width="300" height="200">
+            <img [src]="selectedFilePreview" alt="Image preview" class="preview-img">
         </div>
 
-        <div *ngIf="formError" style="color:red; margin: 10px 0;">
+        <div *ngIf="formError" class="form-error">
             {{ formError }}
         </div>
 
-        <button type="submit">Save</button>
-        <button type="button" (click)="cancel()">Cancel</button>
+        <div class="form-actions">
+            <button type="submit" class="btn save-btn">Save</button>
+            <button type="button" class="btn cancel-btn" (click)="cancel()">Cancel</button>
+        </div>
     </form>
 </div>
