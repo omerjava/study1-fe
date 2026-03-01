@@ -6,10 +6,11 @@ import { selectAllBooks } from '../../store/books/books.selectors';
 import { BookFormComponent } from '../book-form/book-form.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MenuBarComponent } from '../menu-bar/menu-bar.component';
 
 @Component({
   selector: 'app-book',
-  imports: [CommonModule, FormsModule, BookFormComponent],
+  imports: [CommonModule, FormsModule, BookFormComponent, MenuBarComponent],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })

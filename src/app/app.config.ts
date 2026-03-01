@@ -6,14 +6,16 @@ import { booksReducer } from './store/books/books.reducer';
 import { BooksEffects } from './store/books/books.effects';
 import { provideStore } from '@ngrx/store';
 import { Actions, provideEffects } from '@ngrx/effects';
+import { MemberEffects } from './store/member/member.effects';
+import { memberReducer } from './store/member/member.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ books: booksReducer }),
-    provideEffects([BooksEffects]),
+    provideStore({ books: booksReducer, members: memberReducer }),
+    provideEffects([BooksEffects, MemberEffects]),
     { provide: Actions, useClass: Actions }
   ]
 };

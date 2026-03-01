@@ -1,0 +1,91 @@
+/* Container */
+form {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 25px 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+}
+
+/* Each field block */
+form div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+/* Labels */
+label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="url"],
+input:not([type="checkbox"]) {
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* Focus effect */
+input:focus {
+    border-color: #4cafef;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 239, 0.2);
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 5px;
+}
+
+/* Error text */
+.error {
+    color: #e53935;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Submit button */
+button {
+    margin-top: 10px;
+    padding: 12px;
+    background: linear-gradient(135deg, #4cafef, #007bff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Button hover */
+button:hover {
+    background: linear-gradient(135deg, #2196f3, #0056b3);
+    transform: translateY(-1px);
+}
+
+/* Button active */
+button:active {
+    transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    form {
+        margin: 20px;
+        padding: 20px;
+    }
+}
