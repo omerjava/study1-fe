@@ -4,7 +4,7 @@ import { MenuBarComponent } from '../menu-bar/menu-bar.component';
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterModule, MenuBarComponent],
+  imports: [RouterModule],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })

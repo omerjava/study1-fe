@@ -26,8 +26,32 @@ export class MemberEffects {
             ofType(MemberActions.addMember),
             mergeMap(({ member }) =>
                 this.memberService.create(member).pipe(
-                    map((created) => MemberActions.addMemberSuccess({ member: created })),
-                    catchError((error) => of(MemberActions.addMemberFailure({ error })))
+                    map((newMember) => MemberActions.addMemberSuccess({ member: newMember })),
+                    catchError((error) => of(MemberActions.addMemberFailure({ error }))),
+                )
+            )
+        )
+    );
+
+    updateMember$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(MemberActions.updateMember),
+            mergeMap(({ member }) =>
+                this.memberService.update(member).pipe(
+                    map(updatedMember => MemberActions.updateMemberSuccess({ member: updatedMember })),
+                    catchError((error) => of(MemberActions.updateMemberFailure({ error })))
+                )
+            )
+        )
+    );
+
+    deleteMember$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(MemberActions.deleteMember),
+            mergeMap(({ id }) =>
+                this.memberService.delete(id).pipe(
+                    map(() => MemberActions.deleteMemberSuccess({ id })),
+                    catchError(error => of(MemberActions.deleteMemberFailure(error)))
                 )
             )
         )

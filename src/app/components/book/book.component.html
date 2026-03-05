@@ -1,8 +1,6 @@
-<app-menu-bar></app-menu-bar>
-
 <div class="book-container">
     <h2 class="book-title">Book List</h2>
-    <button class="btn add-btn" (click)="createNew()">Add New Book</button>
+    <button class="btn add-btn" (click)="createNew()">{{ !isCreateMode() ? 'Add New Book' : 'Cancel Adding' }}</button>
 
     <!-- Form for creating a new book -->
     <app-book-form *ngIf="isCreateMode()" [book]="formBook!" (cancelEvent)="onCancel()" class="book-form">
@@ -22,7 +20,8 @@
             </div>
 
             <div class="book-actions">
-                <button class="btn edit-btn" (click)="selectBook(book)">Edit</button>
+                <button class="btn edit-btn" (click)="selectBook(book)">{{ !isEditMode() ? 'Edit' : 'Cancel Editing'
+                    }}</button>
                 <button class="btn delete-btn" (click)="deleteBook(book)">Delete</button>
             </div>
 

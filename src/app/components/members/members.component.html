@@ -1,0 +1,23 @@
+<div class="member-container">
+    <h2 class="member-title">Member List:</h2>
+    <button type="button" (click)="show()" class="btn add-btn">
+        {{ !showForm() ? 'Add Member' : 'Cancel Adding'}}
+    </button>
+</div>
+
+<app-member-form *ngIf="showForm()" (closeForm)="closeForm()"></app-member-form>
+
+<ul class="member-list">
+    <li *ngFor="let member of members()" class="member-item">
+        <div class="member-info">
+            <div class="member-name">{{ member.name }}</div>
+            <div class="member-address">{{ member.address }}</div>
+            <div class="member-city">{{ member.city }}</div>
+            <div class="member-country">{{ member.country }}</div>
+        </div>
+
+        <div class="member-actions">
+            <button class="btn edit-btn" (click)="goToDetails(member.id)">Details</button>
+        </div>
+    </li>
+</ul>

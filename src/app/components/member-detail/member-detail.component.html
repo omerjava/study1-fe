@@ -1,0 +1,46 @@
+<div *ngIf="member() as m; else notFound" class="details-container">
+
+    <h2 class="title">Member Details</h2>
+
+    <div class="profile-section">
+        <img *ngIf="m.profilePhotoUrl; else noImage" [src]="m.profilePhotoUrl" alt="Profile Photo"
+            class="profile-img" />
+
+        <ng-template #noImage>
+            <div class="no-image">No Photo</div>
+        </ng-template>
+    </div>
+
+    <div class="details-grid">
+        <p><strong>Name:</strong> {{ m.name }}</p>
+        <p><strong>GSM:</strong> {{ m.gsm }}</p>
+
+        <p><strong>Address:</strong> {{ m.address }}</p>
+        <p><strong>City:</strong> {{ m.city }}</p>
+        <p><strong>State:</strong> {{ m.state || '-' }}</p>
+        <p><strong>Postcode:</strong> {{ m.postcode }}</p>
+        <p><strong>Country:</strong> {{ m.country }}</p>
+
+        <p><strong>Membership Start:</strong> {{ m.membershipStartDate }}</p>
+        <p><strong>Membership Expiry:</strong> {{ m.membershipExpiryDate }}</p>
+
+        <p>
+            <strong>Subscription Paid:</strong>
+            <span [ngClass]="m.subscriptionFeePaid ? 'paid' : 'not-paid'">
+                {{ m.subscriptionFeePaid ? 'Yes' : 'No' }}
+            </span>
+        </p>
+    </div>
+
+    <div class="details-actions">
+        <button class="btn edit-btn" (click)="selectMember(m)"> {{ !isEditable() ? 'Edit' : 'Cancel Editing' }}</button>
+        <button class="btn delete-btn" (click)="deleteMember(m.id)">Delete</button>
+    </div>
+
+    <app-member-form *ngIf="isEditable()" [selectedMember]="selectedMember" (closeForm)="closeForm()"></app-member-form>
+
+</div>
+
+<ng-template #notFound>
+    <p class="not-found">Member not found.</p>
+</ng-template>

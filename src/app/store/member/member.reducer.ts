@@ -17,25 +17,25 @@ export const initialState: MemberState = {
 export const memberReducer = createReducer(
     initialState,
     on(MemberActions.loadMembers, (state) => ({ ...state, loading: true })),
-    on(MemberActions.loadMembersSuccess, (state, { members }) => ({
-        ...state,
-        loading: false,
-        members,
-    })),
-    on(MemberActions.loadMembersFailure, (state, { error }) => ({
-        ...state,
-        loading: false,
-        error,
-    })),
+    on(MemberActions.loadMembersSuccess, (state, { members }) => ({ ...state, loading: false, members })),
+    on(MemberActions.loadMembersFailure, (state, { error }) => ({ ...state, loading: false, error })),
+
     on(MemberActions.addMember, (state) => ({ ...state, loading: true })),
-    on(MemberActions.addMemberSuccess, (state, { member }) => ({
-        ...state,
-        loading: false,
-        members: [...state.members, member],
+    on(MemberActions.addMemberSuccess, (state, { member }) => ({ ...state, loading: false, members: [...state.members, member] })),
+    on(MemberActions.addMemberFailure, (state, { error }) => ({ ...state, loading: false, error })),
+
+    on(MemberActions.updateMember, (state) => ({ ...state, loading: true })),
+    on(MemberActions.updateMemberSuccess, (state, { member }) => ({
+        ...state, loading: false, members: state.members.map(m => (
+            m.id === member.id ? member : m
+        ))
     })),
-    on(MemberActions.addMemberFailure, (state, { error }) => ({
-        ...state,
-        loading: false,
-        error,
-    }))
+    on(MemberActions.updateMemberFailure, (state, { error }) => ({ ...state, loading: false, error })),
+
+    on(MemberActions.deleteMember, (state) => ({ ...state, loading: true })),
+    on(MemberActions.deleteMemberSuccess, (state, { id }) => ({
+        ...state, loading: false, members: state.members.filter((m) => m.id !== id)
+    })),
+    on(MemberActions.deleteMemberFailure, (state, { error }) => ({ ...state, loading: false, error })),
+
 );

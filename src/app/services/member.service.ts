@@ -24,8 +24,8 @@ export class MemberService {
     return this.http.post<Member>(this.baseUrl, member);
   }
 
-  update(id: number, member: Member): Observable<Member> {
-    return this.http.put<Member>(`${this.baseUrl}/${id}`, member);
+  update(member: Member): Observable<Member> {
+    return this.http.put<Member>(`${this.baseUrl}/${member.id}`, member);
   }
 
   delete(id: number): Observable<void> {

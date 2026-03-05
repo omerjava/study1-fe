@@ -6,11 +6,10 @@ import { selectAllBooks } from '../../store/books/books.selectors';
 import { BookFormComponent } from '../book-form/book-form.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuBarComponent } from '../menu-bar/menu-bar.component';
 
 @Component({
   selector: 'app-book',
-  imports: [CommonModule, FormsModule, BookFormComponent, MenuBarComponent],
+  imports: [CommonModule, FormsModule, BookFormComponent],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })
@@ -25,29 +24,24 @@ export class BookComponent {
   selectedFile?: File;
 
   constructor() {
-    // Subscribe to books from store
     this.store.select(selectAllBooks).subscribe(books => this.books.set(books));
     this.loadBooks();
   }
 
-  /** Load books from backend/store */
   loadBooks() {
     this.store.dispatch(BooksActions.loadBooks());
   }
 
-  /** Start editing an existing book */
   selectBook(book: Book) {
     this.formBook = { ...book };
-    this.isEditMode.set(true);
+    this.isEditMode.set(!this.isEditMode());
   }
 
-  /** Create a new book */
   createNew() {
     this.formBook = { id: undefined, name: '', author: '', description: '', photoUrl: '' };
-    this.isCreateMode.set(true);
+    this.isCreateMode.set(!this.isCreateMode());
   }
 
-  /** Delete book */
   deleteBook(book: Book) {
     if (book.id !== undefined) {
       this.store.dispatch(BooksActions.deleteBook({ id: book.id }));
