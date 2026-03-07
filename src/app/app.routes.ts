@@ -4,13 +4,13 @@ import { MemberFormComponent } from './components/member-form/member-form.compon
 import { LandingComponent } from './components/landing/landing.component';
 import { MembersComponent } from './components/members/members.component';
 import { MemberDetailComponent } from './components/member-detail/member-detail.component';
+import { VideoComponent } from './components/video/video.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent },
     { path: 'books', component: BookComponent },
     { path: 'members', component: MembersComponent },
-    {
-        path: 'member/:id', component: MemberDetailComponent
-    },
+    { path: 'member/:id', component: MemberDetailComponent },
+    { path: 'video', component: VideoComponent },
     { path: '**', redirectTo: '' }
 ];
