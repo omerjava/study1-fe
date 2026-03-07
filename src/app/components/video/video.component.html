@@ -1,0 +1,51 @@
+<div class="video-container">
+
+    <form (ngSubmit)="uploadVideo()">
+
+        <label>Select Video</label>
+
+        <input type="file" accept="video/*" (change)="onChangeFile($event)">
+
+        <button type="submit">
+            Upload
+        </button>
+
+        <p *ngIf="formError" class="error">
+            {{ formError }}
+        </p>
+
+    </form>
+
+    <div *ngIf="selectedFilePreview" class="preview">
+
+        <h3>Preview</h3>
+
+        <video width="400" controls>
+            <source [src]="selectedFilePreview">
+        </video>
+
+    </div>
+
+
+    <hr>
+
+    <h3>Uploaded Videos</h3>
+
+    <div class="video-list">
+
+        <div *ngFor="let video of videos()" class="video-item">
+
+            <video width="300" controls>
+                <source [src]="video.videoUrl">
+            </video>
+
+            <div class="video-actions">
+                <button (click)="downloadVideo(video)">Download</button>
+                <button (click)="deleteVideo(video)">Delete</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

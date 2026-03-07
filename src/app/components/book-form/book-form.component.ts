@@ -79,6 +79,5 @@ export class BookFormComponent {
     this.selectedFilePreview = null;
     this.formError = '';
     this.cancelEvent.emit();
-
   }
 }
