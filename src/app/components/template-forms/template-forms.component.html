@@ -1,0 +1,27 @@
+<h2>Template-driven Form</h2>
+<form (ngSubmit)="submitForm()">
+    <label>Name:</label>
+    <input [(ngModel)]="name" name="name" required>
+
+    <label>Email:</label>
+    <input [(ngModel)]="email" name="email" required>
+
+    <button type="submit">Submit</button>
+</form>
+
+<p>Your Name: {{ name }}</p>
+<p>Your Email: {{ email }}</p>
+
+
+<h2>Form 2:</h2>
+<div>
+    <form (ngSubmit)="saveProduct()">
+        <label>Product: </label>
+        <input type="text" [(ngModel)]="product" name="product" required>
+
+        <label>Color:</label>
+        <input type="text" [(ngModel)]="color" name="color" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>

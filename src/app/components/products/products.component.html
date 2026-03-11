@@ -1,0 +1,22 @@
+<div>
+    <app-product-form></app-product-form>
+
+    <ul>
+        <h2>Product list:</h2>
+        <li *ngFor="let product of products()">
+            <div>Name: {{ product.name }}</div>
+            <div>Color: {{ product.color }}</div>
+            <div>Price: {{ product.price }}</div>
+            <div>Stock: {{ product.stock }}</div>
+
+            <button type="button" (click)="editProduct(product)">Edit</button>
+            <button type="button" (click)="deleteProduct(product.id)">Delete</button>
+
+            <div *ngIf="isEditable() && product.id === productToEdit?.id">
+                <app-product-form [productToEdit]="productToEdit" (closeEvent)="closeForm()"></app-product-form>
+            </div>
+        </li>
+    </ul>
+
+
+</div>

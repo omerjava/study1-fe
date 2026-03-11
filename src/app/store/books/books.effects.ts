@@ -41,7 +41,7 @@ export class BooksEffects {
             mergeMap(({ book }) =>
                 this.bookService.updateBook(book).pipe(
                     map(updatedBook => BooksActions.updateBookSuccess({ book: updatedBook })),
-                    catchError(error => of(BooksActions.addBookFailure))
+                    catchError(error => of(BooksActions.updateBookFailure({ error })))
                 )
             )
         )

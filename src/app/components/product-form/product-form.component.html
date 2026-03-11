@@ -1,0 +1,26 @@
+<div class="form-container">
+
+    <h2>{{ !productToEdit ? 'Add Product' : 'Edit Product' }} :</h2>
+    <form [formGroup]="formProduct" (ngSubmit)="saveProduct()">
+
+        <label>Name:</label>
+        <input type="text" formControlName="name" required>
+        <p *ngIf="submitted && formProduct.controls['name'].errors" class="error">Name is required</p>
+
+        <label>Price:</label>
+        <input type="number" formControlName="price" required>
+        <p *ngIf="submitted && formProduct.get('price')?.errors" class="error">Price is required</p>
+
+        <label>Color:</label>
+        <input type="text" formControlName="color" required>
+        <p *ngIf="submitted && formProduct.controls['color'].errors" class="error">Color is required</p>
+
+        <label>Stock:</label>
+        <input type="number" formControlName="stock" required>
+        <p *ngIf="submitted && formProduct.controls['stock'].errors" class="error">Stock is required</p>
+
+        <button type="submit" class="btn">{{ !productToEdit ? 'Add Product' : 'Edit Product' }}</button>
+
+    </form>
+
+</div>

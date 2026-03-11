@@ -16,7 +16,7 @@ import { MenuBarComponent } from '../menu-bar/menu-bar.component';
 })
 export class MemberFormComponent {
   @Input() selectedMember: Member | null = null;
-  @Output() closeForm = new EventEmitter<boolean>();;
+  @Output() closeForm = new EventEmitter<boolean>();
 
   memberForm = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: Validators.required }),

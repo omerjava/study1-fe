@@ -1,0 +1,38 @@
+<h2>Reactive Form</h2>
+<form [formGroup]="myForm" (ngSubmit)="submitForm()">
+    <label>Name:</label>
+    <input formControlName="name" required>
+
+    <label>Email:</label>
+    <input formControlName="email" required>
+
+    <button type="submit">Submit</button>
+</form>
+
+<p>Name: {{ myForm.get('name')?.value }}</p>
+<p>Email: {{ myForm.get('email')?.value }}</p>
+
+<h2>Product Form:</h2>
+
+<div>
+    <form [formGroup]="formProduct" (ngSubmit)="sumbitProduct()">
+        <label>Name: </label>
+        <input type="text" formControlName="name" required>
+        <p *ngIf="submitted && formProduct.controls['name'].errors" class="error"> Name is required </p>
+
+        <label>Price: </label>
+        <input type="number" formControlName="price" required>
+        <p *ngIf="submitted && formProduct.get('price')?.errors" class="error">Price is required</p>
+
+        <label>Description:</label>
+        <input type="text" formControlName="description" required>
+        <p *ngIf="submitted && formProduct.controls['description'].errors" class="error">Description is required</p>
+
+        <label>Color:</label>
+        <input type="text" formControlName="color" required>
+        <p *ngIf="submitted && formProduct.get('color')?.errors" class="error">Color is required</p>
+
+        <button type="submit">Submit</button>
+
+    </form>
+</div>
